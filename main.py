@@ -104,24 +104,16 @@ def get_shop_list_by_dishes(dishes, person_count, filename='recipes.txt'):
     to make shopping list of ingredients with total quantity of them
     """
     result = {}
-    cook_book = parse_recipes(filename)
     for dish in dishes:
         # let's find requested dish in recipes
-        ingred_list = cook_book[dish]
+        ingred_list = parse_recipes(filename)[dish]
         for item in ingred_list:
             ingred_name = item['ingredient_name']
-            # let's check if same ingredient already exist
-            # for summarizing it's quantity
-            ingred_found = result.setdefault(ingred_name, None)
-            if ingred_found is None:
-                ingred_found = {'measure': item['measure'], 'quantity': item['quantity']}
-            else:
-                # if ingredient found, than only increasing quantity
-                # we doesn't change measure, as it is excessive
-                ingred_found['quantity'] = ingred_found['quantity'] + item['quantity']
+            ingred_found = result.setdefault(ingred_name,
+                                             {'measure': item['measure'], 'quantity': 0})
+            ingred_found['quantity'] = ingred_found['quantity'] + item['quantity']
             result[ingred_name] = ingred_found
     return result
-
 
 
 print('Нормальный рецепт:')
