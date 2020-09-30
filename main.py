@@ -7,12 +7,14 @@ def parse_recipes(filename, encoding='utf-8', strict_mode=True):
     """
     This function can work in two modes:
 
-    1. Strict mode - when file structure should always be correct, except some redundant whitespaces allowed.
+    1. Strict mode: file structure should always be correct, except some redundant whitespaces allowed.
     Any errors in this mode will lead to return empty dict.
 
-    2. Flex mode - when allowed additional line breaks, incorrect or absent ingredients quantity, even
+    2. Flex mode: allowed additional line breaks, incorrect or absent ingredients quantity, even
     allowed line break instead of ingredients quantity. Also allowed mistakes in ingredient quantity (i.e.
-    if we put instead "2" word "two"). The main condition that recipe name must precede ingredients list.
+    if there word "two" instead "2"). Strong requirements: recipe name must precede ingredients list, there
+    must be exact 3 specification for each ingredient, which must go in that order: 'ingredient_name',
+    'quantity', 'measure' with separator "|"
     """
     result = {}
     # some checks skipped, so errors in file structure will lead to return an empty dict
