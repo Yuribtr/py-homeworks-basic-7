@@ -46,7 +46,7 @@ def parse_recipes(filename, encoding='utf-8', strict_mode=True):
                         ['ingredient_name', 'quantity', 'measure'],
                         [x.strip() for x in line.split('|')]))
                     try:
-                        tmp_dict['quantity'] = int(tmp_dict.setdefault('quantity', 0))
+                        tmp_dict['quantity'] = int(tmp_dict.get('quantity', 0))
                     except ValueError as e:
                         return {}
                     result[recipe_name].append(tmp_dict)
@@ -113,7 +113,7 @@ def get_shop_list_by_dishes(dishes, person_count, filename='recipes.txt'):
             ingred_name = item['ingredient_name']
             ingred_found = result.setdefault(ingred_name,
                                              {'measure': item['measure'], 'quantity': 0})
-            ingred_found['quantity'] = ingred_found['quantity'] + item['quantity']
+            ingred_found['quantity'] = ingred_found['quantity'] + item['quantity'] * person_count
             result[ingred_name] = ingred_found
     return result
 
